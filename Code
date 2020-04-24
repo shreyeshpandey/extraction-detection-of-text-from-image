@@ -1,0 +1,47 @@
+! apt-get install tesseract-ocr libtesseract-dev libleptonica-dev pkg-config
+!pip install tesserocr
+!sudo apt-get install tesseract-ocr-*
+!pip install googletrans
+
+import tesserocr
+import googletrans
+import shutil
+import os
+import random
+import cv2
+import numpy as np
+
+try:
+    from PIL import Image
+except ImportError:
+    import Image
+from google.colab import files
+m=int(input("enter the languages"))
+l=[]
+for i in range(m):
+  x=input()
+  l.append(x)
+print(l)
+n=int(input('Enter the no of files you want to upload:'))
+img={}
+for i in range(n):
+  uploaded = files.upload()
+  img.update(uploaded)
+  str="+"
+a=str.join(l)
+print(a)
+list1=[k for k in img]
+print(list1)
+from tesserocr import PyTessBaseAPI
+from googletrans import Translator
+translator=Translator()
+with PyTessBaseAPI() as api:
+  for i in list1:
+    extracted=tesserocr.file_to_text(i,lang=a)
+    print(extracted)
+    a=translator.detect(extracted)
+    b=translator.translate(extracted)
+    print(a)
+    print(b)
+
+ 
